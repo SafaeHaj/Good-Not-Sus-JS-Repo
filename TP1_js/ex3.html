@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 1: Javascript Ex3 </title>
+</head>
+
+<body>
+    <p id="budget">Budget: </p>
+    <p id="achats">Achats: </p>
+</body>
+
+<script>
+   let budget = 200;
+   let achats = 149;
+
+   document.getElementById("budget").innerHTML += budget;
+   document.getElementById("achats").innerHTML += achats;
+
+   if (budget >= achats) {
+    document.body.innerHTML += "Votre budget vous permettra de faire vos achats!"
+   }
+</script>

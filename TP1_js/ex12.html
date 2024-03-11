@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 1: Javascript Ex12 </title>
+</head>
+
+<body>
+    <div class="image-container">
+
+    </div>
+
+</body>
+
+<script>
+    const imageContainer = document.querySelector(".image-container");
+
+    function imageGenerator() {
+        const image = document.createElement("img");
+        let random = Math.floor(Math.random() * 100);
+        image.src = `https://picsum.photos/id/${random}/300/300`;
+        imageContainer.appendChild(image);
+    }
+    for (let i = 0; i < 12; i++) {
+        imageGenerator();
+    }
+
+</script>

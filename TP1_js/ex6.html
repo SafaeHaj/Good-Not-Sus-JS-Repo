@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 1: Javascript Ex6 </title>
+</head>
+
+<body>
+    <p id="prixTTC"></p>
+</body>
+
+<script>
+   let prixHT = Number(prompt("Donnez le prix HT"));
+   let tva = Number(prompt("Donnez la TVA"));
+   
+   let prixTTC_html = document.getElementById("prixTTC");
+   if (tva > 1 || tva < 0) {
+        alert("TVA invalide!");
+   }
+   
+   let prixTTC = prixHT + prixHT*tva;
+
+   if (prixTTC > 100) {
+        prixTTC_html.style.color = "red";
+   } else {
+        prixTTC_html.style.color = "green";
+   }
+
+   prixTTC_html.innerHTML = "Prix TTC: " + String(prixTTC);
+   
+</script>

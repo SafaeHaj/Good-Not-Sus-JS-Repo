@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 1: Javascript Ex5 </title>
+</head>
+
+<body>
+    
+</body>
+
+<script>
+   let prixHT = Number(prompt("Donnez le prix HT"));
+   let tva = Number(prompt("Donnez la TVA"));
+   
+   if (tva > 1 || tva < 0) {
+        alert("TVA invalide!");
+   }
+   
+   let prixTTC = prixHT + prixHT*tva;
+
+   document.body.innerText = "Prix TTC: " + String(prixTTC);
+   
+</script>

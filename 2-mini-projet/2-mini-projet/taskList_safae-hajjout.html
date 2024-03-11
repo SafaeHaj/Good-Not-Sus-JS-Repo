@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>taskList </title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <div>
+            <fieldset>
+                <legend>Filtrez vos tâches</legend>
+                <button :class="{click: todo}" class="bold" v-model="todo" @click="toggleTodo">À faire</button>
+                <button :class="{click: done}" class="bold" v-model="done" @click="toggleDone">Terminées</button>
+            </fieldset>
+            <p>Nombre de Tâches: {{tasksNumber}}</p>
+        </div>
+
+        <div v-for="task in tasks">
+            <div class="task" :class="{done: task.completed}"
+                v-if="(done && task.completed) || (todo && !task.completed)">
+
+                <span class="bold">{{task.id}}</span>
+                <span class="bold">{{task.title}}</span>
+                <span>{{task.description}}</span>
+
+                <button v-show="!task.completed" @click="task.completed = true"
+                    :class="{complete: completed}">✔</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    done: false,
+                    todo: false,
+                    tasks: [
+                        {
+                            "id": 1,
+                            "title": "Faire les courses",
+                            "description": "Acheter des légumes et du lait.",
+                            "completed": false
+                        },
+                        {
+                            "id": 2,
+                            "title": "Faire du sport",
+                            "description": "Courir pendant 30 minutes.",
+                            "completed": true
+                        },
+                        {
+                            "id": 3,
+                            "title": "Réviser pour l'examen",
+                            "description": "Relire le chapitre 5 du manuel.",
+                            "completed": false
+                        },
+                    ],
+                }
+            },
+            methods: {
+                toggleTodo() {
+                    this.todo = !this.todo;
+                },
+
+                toggleDone() {
+                    this.done = !this.done;
+                },
+            },
+            computed: {
+                tasksNumber() {
+                    return this.tasks.length;
+                }
+            }
+
+
+        });
+
+        app.mount('#app');
+
+    </script>
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial;
+        }
+
+        fieldset {
+            background-color: #f8f9fa;
+            border: 2px solid #3baa7c;
+            padding: 10px;
+            display: flex;
+            gap: 5%;
+            align-items: center;
+            justify-content: baseline;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #1b4332;
+            color: #d8f3dc;
+            border: none;
+            cursor: pointer;
+            border-radius: 10%;
+            font-family: Arial
+        }
+
+        .task {
+            display: flex;
+            gap: 5%;
+            width: 40%;
+            padding: 10px;
+            margin: 10px;
+            align-items: center;
+            justify-content: space-around;
+            background-color: #d8f3dc;
+            color: #1b4332;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .task span {
+            max-width: max-content;
+        }
+
+        .task button {
+            background-color: #f8f9fa;
+            color: #40916c;
+            cursor: pointer;
+            padding: 3px 5px
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .done {
+            opacity: 0.5;
+        }
+
+        .click {
+            background-color: #d8f3dc;
+            color: #3baa7c;
+        }
+
+        .complete {}
+    </style>
+</body>
+
+</html>

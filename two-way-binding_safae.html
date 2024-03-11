@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Manipulation de vue</title>
+	<script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+
+	<div id="monapp">
+		<div>
+			<p>Couleur de la police:</p>
+			<input type="radio" value="red" v-model="color">
+			<label for="rouge">Rouge</label>
+			<input type="radio" value="blue" v-model="color">
+			<label for="bleu">Bleu</label>
+		</div>
+
+		<div>
+			<label for="check">Afficher/ cacher le paragraphe?</label>
+			<input type="checkbox" v-model="checked">
+		</div>
+		<p :class="color" v-show="checked">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus non asperiores aut dolores
+			ducimus mollitia cum excepturi repellendus nemo in ullam maiores numquam perspiciatis ut, expedita illo
+			reiciendis illum officia.</p>
+	</div>
+
+
+	<script>
+		const appli = {
+			data() {
+				return {
+					checked: false,
+					color: 'black'
+				}
+			}
+		};
+
+		Vue.createApp(appli).mount("#monapp");
+	</script>
+
+	<style>
+		.red {
+			color: rgb(201, 22, 22);
+		}
+
+		.blue {
+			color: rgb(34, 34, 212);
+		}
+
+		#monapp{
+			display: flex;
+			flex-direction: column;
+			gap: 5vh;
+		}
+	</style>
+</body>
+
+</html>
