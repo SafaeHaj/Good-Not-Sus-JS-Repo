@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 2: Javascript</title>
+</head>
+
+<body>
+    <h3>Exercice 1</h3>
+    <div class="flex">
+        <input type="text" id="ex1_num1">
+        <span>+</span>
+        <input type="text" id="ex1_num2">
+        <span>=</span>
+        <button onclick="ex1()">Calculer</button>
+        <span id="answer1"></span>
+    </div>
+    <h3>Exercice 2</h3>
+    <div class="flex">
+        <input type="text" id="ex2_num1">
+        <input type="text" id="ex2_num2">
+        <button onclick="ex2()">Permuter</button>
+    </div>
+    <h3>Exercice 3</h3>
+    <div class="flex">
+        <input type="text" id="ex3_num1">
+        <input type="text" id="ex3_num2">
+        <select id="operations">
+            <option value="0">Choisir opération</option>
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="x">x</option>
+            <option value="/">/</option>
+        </select>
+        <button onclick="ex3()">Calculer</button>
+        <span id="answer3"></span>
+    </div>
+    <h3>Exercice 4</h3>
+    <div>
+        <button onclick="ex4()">Cliquez Moi!</button>
+        <span id="ex4"></span>
+    </div>
+    <h3>Exercice 5</h3>
+    <div>
+        <button onclick="ex5()">Cliquez Moi</button>
+        <p id="ex5_val">Prix TTC: </p>
+    </div>
+    <h3>Exercice 6</h3>
+    <div>
+        <h2>Formulaire de Contact</h2>
+        <form id="ex6_form" class="flex column" onsubmit="ex6(event)">
+            <label for="email">email:</label>
+            <input type="email" name="email">
+            <label for="objet">objet:</label>
+            <input type="text" name="objet" placeholder="Objet de l'email">
+            <label for="corps">corps:</label>
+            <textarea name="corps"></textarea>
+            <input type="submit" value="Envoyer l'email">
+            <div>
+                <p>Sender:</p>
+                <span id="ex6_val1"></span>
+            </div>
+            <div>
+                <p>Objet:</p>
+                <span id="ex6_val2"></span>
+            </div>
+            <div>
+                <p>Corps de l'email: </p>
+                <span id="ex6_val3"></span>
+            </div>
+        </form>
+        <h3>Exercice 7</h3>
+        <div>
+            <a id="ex7_link" href="https://www.youtube.com/watch?v=tu9x9zahTPM">lien</a>
+            <div class="ex7 flex column" onmouseover="ex7()" onmouseout="ex7()">
+                <p>Menu</p>
+                <ul id="ex7_div" class="hidden">
+                    <li>option 1</li>
+                    <li>option 2</li>
+                    <li>option 3</li>
+                </ul>
+            </div>
+        </div>
+</body>
+
+<script>
+    function calculate(a, b, operation) {
+        let result;
+        switch (operation) {
+            case '+':
+                result = a + b;
+                break;
+            case '-':
+                result = a - b;
+                break;
+            case 'x':
+                result = a * b;
+                break;
+            case '/':
+                result = a / b;
+                break;
+            default:
+                result = "Vous n'avez pas choisi une opération.";
+        }
+        return result;
+    }
+
+    const ex1 = () => {
+        let ex1_num1 = Number(document.getElementById('ex1_num1').value);
+        let ex1_num2 = Number(document.getElementById('ex1_num2').value);
+        const answer1 = document.getElementById('answer1');
+        answer1.textContent = String(calculate(ex1_num1, ex1_num2, '+'));
+    }
+
+    const ex2 = () => {
+        const ex2_num1 = document.getElementById('ex2_num1');
+        const ex2_num2 = document.getElementById('ex2_num2');
+        let temp = ex2_num1.value;
+        ex2_num1.value = ex2_num2.value;
+        ex2_num2.value = temp;
+        console.log(ex2_num1.value);
+    }
+
+    const ex3 = () => {
+        let ex3_num1 = Number(document.getElementById('ex3_num1').value);
+        let ex3_num2 = Number(document.getElementById('ex3_num2').value);
+        const ex3_op = document.getElementById('operations').value;
+        const answer3 = document.getElementById('answer3');
+        answer3.textContent = String(calculate(ex3_num1, ex3_num2, ex3_op));
+    }
+
+    const ex4 = () => {
+        const ex4 = document.getElementById('ex4');
+        let a = Number(prompt('Variable 1:'));
+        let b = Number(prompt('Variable 2:'));
+        let c = Number(prompt('Variable 3:'));
+
+        if (a === b && b === c) {
+            ex4.textContent = "Les trois variables sont différentes";
+        } else if (a === b || b === c || a === c) {
+            ex4.textContent = "Deux des variables sont de valeurs égales";
+        } else {
+            ex4.textContent = "Les trois variables sont différentes";
+        }
+    }
+
+
+    const ex5 = () => {
+        let prixHT = Number(prompt("Donnez le prix HT"));
+        let tva = Number(prompt("Donnez la TVA"));
+
+        if (tva > 1 || tva < 0) {
+            alert("TVA invalide!");
+            return;
+        }
+
+        let prixTTC = prixHT + prixHT * tva;
+        document.getElementById('ex5_val').textContent += prixTTC;
+    }
+
+    document.getElementById('ex6_form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        document.getElementById('ex6_val1').textContent = document.getElementsByName('email')[0].value;
+        document.getElementById('ex6_val2').textContent = document.getElementsByName('objet')[0].value;
+        document.getElementById('ex6_val3').textContent = document.getElementsByName('corps')[0].value;
+    });
+
+    document.getElementById('ex7_link').addEventListener('click', (event) => {
+        event.preventDefault();
+        alert("Redirection Interdite!!!");
+    })
+
+    const ex7 = () => {
+        const ex7 = document.getElementById('ex7_div');
+        ex7.classList.toggle('hidden');
+    }
+
+</script>
+<style>
+    body {
+        margin: 5%;
+    }
+
+    .flex {
+        display: flex;
+        width: max-content;
+        gap: 1%;
+    }
+
+    .column {
+        flex-direction: column;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .ex7 {
+        margin: 20px;
+        background-color: black;
+        color: aliceblue;
+        min-height: fit-content;
+        min-width: fit-content;
+        padding: 2px 20px;
+        border-radius: 20%;
+        gap: 0;
+    }
+
+    #ex7_div {
+        margin-top: 0;
+    }
+
+    button,
+    input[type='submit'] {
+        cursor: pointer;
+    }
+</style>
+
+</html>
