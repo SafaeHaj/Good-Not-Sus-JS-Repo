@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 3: Javascript</title>
+</head>
+
+<body>
+    <h3>Exercice 1</h3>
+    <form id="ex1_form" class="grid">
+        <label for="nom">Nom:</label>
+        <input type="text" name="nom" required>
+
+        <label for="prenom">Prénom:</label>
+        <input type="text" name="prenom" required>
+
+        <label for="email">E-mail:</label>
+        <input type="email" name="email" required>
+
+        <label for="pass">Mot de passe:</label>
+        <input type="password" name="pass" required>
+
+        <label for="confirmPass">Resaisir le mot de passe:</label>
+        <input type="password" name="confirmPass" required>
+
+        <label for="tel">Téléphone:</label>
+        <input type="tel" name="tel" required>
+
+        <label for="lang">Langue:</label>
+        <select name="language" required>
+            <option value="eng">Anglais</option>
+            <option value="fr">Français</option>
+            <option value="ar">Arabe</option>
+        </select>
+
+        <label for="comment">Commentaire:</label>
+        <textarea name="comment" required></textarea>
+
+        <input type="submit" value="Valider">
+        <input type="reset" value="Annuler">
+    </form>
+    <div id="ex1" class="hidden">
+        Récapitulatif:
+        <p>Nom:<span id="ex1_val1"></span></p>
+        <p>Prénom:<span id="ex1_val2"></span></p>
+        <p>E-mail:<span id="ex1_val3"></span></p>
+        <p>Téléphone:<span id="ex1_val4"></span></p>
+        <p>Langue:<span id="ex1_val5"></span></p>
+        <p>Commentaire:<span id="ex1_val6"></span></p>
+    </div>
+
+    <h3>Exercice 2</h3>
+    <form id="ex2_form">
+        <label for="dimension">Dimension du tableau</label>
+        <input type="text" name="dimension">
+        <label for="min_val">La valeur minimale</label>
+        <input type="text" name="min_val">
+        <label for="max_val">La valeur maximale</label>
+        <input type="text" name="max_val">
+        <input type="submit" value="Générez un tableau">
+    </form>
+    <table id="ex2"></table>
+
+    <h3>Exercice 3</h3>
+    <form id="ex3_form" class="flex">
+        <label for="code_etud">Code Étudiant:</label>
+        <input type="text" name="code_etud">
+
+        <label for="nom_etud">Nom Étudiant:</label>
+        <input type="text" name="nom_etud">
+
+        <label for="prenom_etud">Prénom Étudiant</label>
+        <input type="text" name="prenom_etud">
+
+        <label for="semestre">Semestre</label>
+        <select id="semestre">
+            <option val="0">Semestre actuel</option>
+            <option val="1">Semestre 1</option>
+            <option val="2">Semestre 2</option>
+        </select>
+
+        <div class="grid">
+            <label for="module1">Note du module 1:</label>
+            <input type="text" id="module1" name="module1">
+
+            <label for="module2">Note du module 2:</label>
+            <input type="text" id="module2" name="module2">
+
+            <label for="module3">Note du module 3:</label>
+            <input type="text" id="module3" name="module3">
+
+            <label for="module4">Note du module 4:</label>
+            <input type="text" id="module4" name="module4">
+
+            <label for="module5">Note du module 5:</label>
+            <input type="text" id="module5" name="module5">
+
+            <label for="module6">Note du module 6:</label>
+            <input type="text" id="module6" name="module6">
+        </div>
+        <input type="submit" value="Entrer Étudiant">
+    </form>
+    <table id="ex3">
+        <tr>
+            <th>Code Étudiant</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Semestre</th>
+            <th>Module 1</th>
+            <th>Module 2</th>
+            <th>Module 3</th>
+            <th>Module 4</th>
+            <th>Module 5</th>
+            <th>Module 6</th>
+            <th>Moyenne</th>
+            <th>Décision</th>
+        </tr>
+    </table>
+</body>
+
+<script>
+    const ex1Form = document.getElementById("ex1_form");
+    const ex2Form = document.getElementById("ex2_form");
+    const ex2table = document.getElementById("ex2");
+    const ex3Form = document.getElementById("ex3_form");
+    const ex3table = document.getElementById("ex3");
+
+    ex1Form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const ex1 = document.getElementById('ex1');
+
+        ex1.classList.remove('hidden');
+        if (document.getElementsByName('pass')[0].value != document.getElementsByName('confirmPass')[0].value) {
+            ex1.textContent = "VALEURS INVALIDES";
+            ex1.style.color = "red";
+            return;
+        }
+        document.getElementById("ex1_val1").textContent += document.getElementsByName('nom')[0].value;
+        document.getElementById("ex1_val2").textContent += document.getElementsByName('prenom')[0].value;
+        document.getElementById("ex1_val3").textContent += document.getElementsByName('email')[0].value;
+        document.getElementById("ex1_val4").textContent += document.getElementsByName('tel')[0].value;
+        document.getElementById("ex1_val5").textContent += document.getElementsByName('language')[0].value;
+        document.getElementById("ex1_val6").textContent += document.getElementsByName('comment')[0].value;
+    })
+
+    ex2Form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        ex2table.innerHTML = "";
+        let n = Number(document.getElementsByName('dimension')[0].value);
+        let min_val = Number(document.getElementsByName("min_val")[0].value);
+        let max_val = Number(document.getElementsByName("max_val")[0].value);
+        if (!n || !min_val || !max_val) {
+            alert("Error!");
+            return;
+        }
+
+        for (let i = 0; i < n; i++) {
+            let row = document.createElement("tr");
+            ex2table.appendChild(row);
+            for (let j = 0; j < n; j++) {
+                let cell = document.createElement("td");
+                cell.textContent = Math.floor(Math.random() * (max_val - min_val) + min_val);
+                row.appendChild(cell);
+            }
+        }
+    })
+
+    ex3Form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const studentCode = document.getElementsByName("code_etud")[0].value;
+        const studentName = document.getElementsByName("nom_etud")[0].value;
+        const studentLastName = document.getElementsByName("prenom_etud")[0].value;
+        const semester = document.getElementById("semestre").value;
+
+        const modules = [];
+        let grade, count = 0;
+        for (let i = 1; i <= 6; i++) {
+            grade = Number(document.getElementById("module" + i).value);
+            modules.push(grade);
+            if (grade < 12)
+                count++;
+        }
+
+        const lowGrades = modules.filter(grade => grade < 8);
+        let decision = modules.length === 0 || count > 2 ? false : true;
+
+        let mean = modules.reduce((acc, cur) => acc + cur, 0) / modules.length;
+        if (decision)
+            decision = mean > 12;
+
+        let row = document.createElement("tr");
+        ex3table.appendChild(row);
+
+        const createCell = (text) => {
+            const cell = document.createElement("td");
+            cell.textContent = text;
+            row.appendChild(cell);
+        };
+
+        createCell(studentCode);
+        createCell(studentName);
+        createCell(studentLastName);
+        createCell(semester);
+        modules.forEach(grade => createCell(grade));
+        createCell(mean.toFixed(2));
+        createCell(decision ? "Semestre Validé" : "Semestre Non Validé");
+    })
+</script>
+
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        gap: 10px;
+        margin: 30px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+        cursor: pointer;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    p {
+        font-size: 0.9em;
+        font-weight: 600;
+        margin: 20px;
+    }
+
+    span {
+        font-weight: 500;
+    }
+</style>
