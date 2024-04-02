@@ -9,52 +9,62 @@
 </head>
 
 <body>
-    <h1>Open Trivia Quiz</h1>
+    <h1>Welcome to the million dollar quiz.<br> If you get a perfect score, you win 1 million dollars!
+    </h1>
     <form id="quizForm">
         <label for="amount">Number of Questions:</label>
         <input type="number" id="amount" name="amount" min="1" max="50" value="10">
         <label for="category">Category:</label>
+        <label for="category">Category:</label>
         <select id="category" name="category">
-            <option value="1">General Knowledge</option>
-            <option value="2">Entertainment: Books</option>
-            <option value="3">Entertainment: Film</option>
-            <option value="4">Entertainment: Music</option>
-            <option value="5">Entertainment: Musicals & Theatres</option>
-            <option value="6">Entertainment: Television</option>
-            <option value="7">Entertainment: Video Games</option>
-            <option value="8">Entertainment: Board Games</option>
-            <option value="9">Science & Nature</option>
-            <option value="10">Science: Computers</option>
-            <option value="11">Science: Mathematics</option>
-            <option value="12">Mythology</option>
-            <option value="13">Sports</option>
-            <option value="14">Geography</option>
-            <option value="15">History</option>
-            <option value="16">Politics</option>
-            <option value="17">Art</option>
-            <option value="18">Celebrities</option>
-            <option value="19">Animals</option>
-            <option value="20">Vehicles</option>
-            <option value="21">Entertainment: Comics</option>
-            <option value="22">Science: Gadgets</option>
-            <option value="23">Entertainment: Japanese Anime & Manga</option>
-            <option value="24">Entertainment: Cartoon & Animations</option>
+            <option value="9">General Knowledge</option>
+            <option value="10">Entertainment: Books</option>
+            <option value="11">Entertainment: Film</option>
+            <option value="12">Entertainment: Music</option>
+            <option value="13">Entertainment: Musicals & Theatres</option>
+            <option value="14">Entertainment: Television</option>
+            <option value="15">Entertainment: Video Games</option>
+            <option value="16">Entertainment: Board Games</option>
+            <option value="17">Science & Nature</option>
+            <option value="18">Science: Computers</option>
+            <option value="19">Science: Mathematics</option>
+            <option value="20">Mythology</option>
+            <option value="21">Sports</option>
+            <option value="22">Geography</option>
+            <option value="23">History</option>
+            <option value="24">Politics</option>
+            <option value="25">Art</option>
+            <option value="26">Celebrities</option>
+            <option value="27">Animals</option>
+            <option value="28">Vehicles</option>
+            <option value="29">Entertainment: Comics</option>
+            <option value="30">Science: Gadgets</option>
+            <option value="31">Entertainment: Japanese Anime & Manga</option>
+            <option value="32">Entertainment: Cartoon & Animations</option>
         </select>
+
         <label for="difficulty">Difficulty:</label>
         <select id="difficulty" name="difficulty">
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
         </select>
-        <button type="submit">Start Quiz</button>
+        <input type="submit" value="Start Quiz">
     </form>
 
     <div id="quiz" style="display: none;">
     </div>
 
+    <div id="result" class="hidden"></div>
+
     <script>
+        let currentQuestion = 0;
+        let totalQuestions = 0;
+        let correctValues = [];
+
         document.getElementById('quizForm').addEventListener('submit', function (event) {
             event.preventDefault();
+            this.classList.add('hidden');
             const formData = new FormData(this);
             const amount = formData.get('amount');
             const category = formData.get('category');
@@ -67,33 +77,49 @@
                 .catch(error => console.error('Error fetching quiz:', error));
         });
 
+
         function displayQuiz(questions) {
             const quizElement = document.getElementById('quiz');
-            let currentQuestion = 0;
-            const totalQuestions = questions.length;
-            const correctValues = questions.map(question => question.correct_answer);
+            totalQuestions = questions.length;
+            correctValues = questions.map(question => question.correct_answer);
             quizElement.innerHTML = '';
             questions.forEach((question, index) => {
                 const questionElement = document.createElement('div');
-                questionElement.innerHTML = `
-                    <h2>${question.question}</h2> 
-                    <ul>
-                        ${question.incorrect_answers.map(answer => `<li><input type="radio" name="answer${index}" value="${answer}">${answer}</li>`).join('')}
-                        <li><input type="radio" name="answer${index}" value="${question.correct_answer}">${question.correct_answer}</li>
-                    </ul>
-                    <div class="timer" id="timer${index}">Time Left: <span>10</span>s</div>
-                    <button class="next" onclick="nextQuestion()">Next</button>`;
                 questionElement.classList.add('question');
-                if (index !== 0) questionElement.style.display = 'none';
-                quizElement.appendChild(questionElement);
-                startTimer(`timer${index}`);
+                questionElement.innerHTML = `
+            <h2>${question.question}</h2>
+            <ul class="options">
+                ${question.incorrect_answers.map(answer => `<li><input type="radio" value="${answer}" name="answer${index}">${answer}</li>`).join('')}
+                <li><input type="radio" name="answer${index}" value="${question.correct_answer}">${question.correct_answer}</li>
+            </ul>
+            <div class="timer" id="timer${index}">Time Left: <span>10</span>s</div>
+            <button class="next" onclick=nextQuestion()>Next</button>`;
+            quizElement.appendChild(questionElement);
+            if (index !== 0) questionElement.style.display = 'none';
+            else startTimer(`timer${index}`);
             });
+
+            quizElement.classList.add('container');
             quizElement.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            const currentQuestionDiv = document.querySelector('.question:nth-child(' + (currentQuestion + 1) + ')');
+            currentQuestionDiv.style.display = 'none';
+            currentQuestion++;
+
+            if (currentQuestion < totalQuestions) {
+                const nextQuestionDiv = document.querySelector('.question:nth-child(' + (currentQuestion + 1) + ')');
+                nextQuestionDiv.style.display = 'block';
+                startTimer(`timer${currentQuestion}`);
+            } else {
+                calculateScore();
+            }
         }
 
         function startTimer(timerId) {
             let timeLeft = 10;
-            let timerElement = document.getElementById(timerId).querySelector('span');
+            const timerElement = document.getElementById(timerId).querySelector('span');
             const timerInterval = setInterval(function () {
                 timeLeft--;
                 timerElement.textContent = timeLeft;
@@ -108,7 +134,6 @@
             let score = 0;
             const goodScore = "Yay! You got a perfect score, I don't actually have a million dollars, have a smoothie instead 🥤";
             const notSoGoodScore = "Eh your score's good enough, congrats buddy you did your best, no million dollars for you tho.";
-            const totalQuestions = document.querySelectorAll('.question').length;
 
             for (let i = 0; i < totalQuestions; i++) {
                 const selected = document.querySelector('input[name="answer' + i + '"]:checked');
@@ -124,22 +149,8 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function nextQuestion() {
-            const currentQuestionDiv = document.querySelector('.question:nth-child(' + (currentQuestion + 1) + ')');
-            currentQuestionDiv.style.display = 'none';
-            currentQuestion++;
-
-            if (currentQuestion < totalQuestions) {
-                const nextQuestionDiv = document.querySelector('.question:nth-child(' + (currentQuestion + 1) + ')');
-                nextQuestionDiv.style.display = 'block';
-            } else {
-                calculateScore();
-            }
-        }
     </script>
 </body>
-
 <style>
     form {
         margin: auto;
@@ -150,8 +161,9 @@
         justify-content: center;
     }
 
-    form > *{
+    form>* {
         padding: 10px;
     }
 </style>
+
 </html>

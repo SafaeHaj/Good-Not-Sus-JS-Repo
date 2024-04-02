@@ -60,7 +60,6 @@
             timerElement.textContent = timeLeft;
             if (timeLeft === 0) {
                 clearInterval(timerInterval);
-                disableOptions(document.getElementById('question' + currentQuestion));
                 nextQuestion();
             }
         }, 1000);
