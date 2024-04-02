@@ -15,38 +15,39 @@
         <input type="number" id="amount" name="amount" min="1" max="50" value="10">
         <label for="category">Category:</label>
         <select id="category" name="category">
-            <option value="1">General Knowledge</option>
-            <option value="2">Entertainment: Books</option>
-            <option value="3">Entertainment: Film</option>
-            <option value="4">Entertainment: Music</option>
-            <option value="5">Entertainment: Musicals & Theatres</option>
-            <option value="6">Entertainment: Television</option>
-            <option value="7">Entertainment: Video Games</option>
-            <option value="8">Entertainment: Board Games</option>
-            <option value="9">Science & Nature</option>
-            <option value="10">Science: Computers</option>
-            <option value="11">Science: Mathematics</option>
-            <option value="12">Mythology</option>
-            <option value="13">Sports</option>
-            <option value="14">Geography</option>
-            <option value="15">History</option>
-            <option value="16">Politics</option>
-            <option value="17">Art</option>
-            <option value="18">Celebrities</option>
-            <option value="19">Animals</option>
-            <option value="20">Vehicles</option>
-            <option value="21">Entertainment: Comics</option>
-            <option value="22">Science: Gadgets</option>
-            <option value="23">Entertainment: Japanese Anime & Manga</option>
-            <option value="24">Entertainment: Cartoon & Animations</option>
+            <option value="9">General Knowledge</option>
+            <option value="10">Entertainment: Books</option>
+            <option value="11">Entertainment: Film</option>
+            <option value="12">Entertainment: Music</option>
+            <option value="13">Entertainment: Musicals & Theatres</option>
+            <option value="14">Entertainment: Television</option>
+            <option value="15">Entertainment: Video Games</option>
+            <option value="16">Entertainment: Board Games</option>
+            <option value="17">Science & Nature</option>
+            <option value="18">Science: Computers</option>
+            <option value="19">Science: Mathematics</option>
+            <option value="20">Mythology</option>
+            <option value="21">Sports</option>
+            <option value="22">Geography</option>
+            <option value="23">History</option>
+            <option value="24">Politics</option>
+            <option value="25">Art</option>
+            <option value="26">Celebrities</option>
+            <option value="27">Animals</option>
+            <option value="28">Vehicles</option>
+            <option value="29">Entertainment: Comics</option>
+            <option value="30">Science: Gadgets</option>
+            <option value="31">Entertainment: Japanese Anime & Manga</option>
+            <option value="32">Entertainment: Cartoon & Animations</option>
         </select>
+
         <label for="difficulty">Difficulty:</label>
         <select id="difficulty" name="difficulty">
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
         </select>
-        <button type="submit">Start Quiz</button>
+        <input type="submit" value="Start Quiz">
     </form>
 
     <div id="quiz" style="display: none;">
@@ -55,9 +56,11 @@
     <script>
         document.getElementById('quizForm').addEventListener('submit', function (event) {
             event.preventDefault();
+            this.classList.add('hidden');
             const formData = new FormData(this);
             const amount = formData.get('amount');
             const category = formData.get('category');
+            console.log("category: ", category);
             const difficulty = formData.get('difficulty');
             fetch(`https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}`)
                 .then(response => response.json())
@@ -67,22 +70,26 @@
                 .catch(error => console.error('Error fetching quiz:', error));
         });
 
+
         function displayQuiz(questions) {
+
             const quizElement = document.getElementById('quiz');
             let currentQuestion = 0;
             const totalQuestions = questions.length;
+            console.log(questions);
             const correctValues = questions.map(question => question.correct_answer);
             quizElement.innerHTML = '';
             questions.forEach((question, index) => {
                 const questionElement = document.createElement('div');
+                question.classList.add('question');
                 questionElement.innerHTML = `
-                    <h2>${question.question}</h2> 
-                    <ul>
-                        ${question.incorrect_answers.map(answer => `<li><input type="radio" name="answer${index}" value="${answer}">${answer}</li>`).join('')}
-                        <li><input type="radio" name="answer${index}" value="${question.correct_answer}">${question.correct_answer}</li>
-                    </ul>
-                    <div class="timer" id="timer${index}">Time Left: <span>10</span>s</div>
-                    <button class="next" onclick="nextQuestion()">Next</button>`;
+            <h2>${question.question}</h2>
+            <ul class="options">
+                ${question.incorrect_answers.map(answer => `<li><input type="radio" value="${answer}">${answer}</li>`).join('')}
+                <li><input type="radio" name="answer${index}" value="${question.correct_answer}">${question.correct_answer}</li>
+            </ul>
+            <div class="timer" id="timer${index}">Time Left: <span>10</span>s</div>
+            <button class="next" onclick="nextQuestion()">Next</button>`;
                 questionElement.classList.add('question');
                 if (index !== 0) questionElement.style.display = 'none';
                 quizElement.appendChild(questionElement);
@@ -127,7 +134,7 @@
 
         function nextQuestion() {
             const currentQuestionDiv = document.querySelector('.question:nth-child(' + (currentQuestion + 1) + ')');
-            currentQuestionDiv.style.display = 'none';
+            currentQuestionDiv.classList.add('hidden');
             currentQuestion++;
 
             if (currentQuestion < totalQuestions) {
@@ -137,6 +144,7 @@
                 calculateScore();
             }
         }
+
     </script>
 </body>
 
@@ -150,8 +158,9 @@
         justify-content: center;
     }
 
-    form > *{
+    form>* {
         padding: 10px;
     }
 </style>
+
 </html>
