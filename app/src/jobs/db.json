@@ -1,0 +1,36 @@
+{
+  "jobs": [
+    {
+      "title": "Software Engineer",
+      "description": "Develop and maintain software applications.",
+      "salary": 80000,
+      "date_of_creation": "2024-04-26",
+      "years_of_experience": 3,
+      "id": "0ea3"
+    },
+    {
+      "title": "Data Scientist",
+      "description": "Analyze large datasets to extract insights.",
+      "salary": 90000,
+      "date_of_creation": "2024-04-25",
+      "years_of_experience": 5,
+      "id": "25e9"
+    },
+    {
+      "title": "Marketing Specialist",
+      "description": "Develop and execute marketing campaigns to promote products or services.",
+      "salary": 70000,
+      "date_of_creation": "2024-04-21",
+      "years_of_experience": 3,
+      "id": "0b7d"
+    },
+    {
+      "title": "Network Engineer",
+      "description": "Design, implement, and maintain computer networks.",
+      "salary": 85000,
+      "date_of_creation": "2024-04-20",
+      "years_of_experience": 5,
+      "id": "e4a7"
+    }
+  ]
+}
