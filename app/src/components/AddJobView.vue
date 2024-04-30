@@ -2,10 +2,10 @@
   <h2>Add Job</h2>
   <main>
   <form @submit.prevent="handleSubmit">
-    <input type="text" v-model="title" placeholder="Job title">
-    <input type="text" v-model="description" placeholder="Description">
-    <input type="number" v-model="salary" placeholder="25000$">
-    <input type="date" v-model="date_creation">
+    <input type="text" v-model="title" placeholder="Job title" required>
+    <input type="text" v-model="description" placeholder="Description" required>
+    <input type="number" v-model="salary" required>
+    <input type="date" v-model="date_creation" required>
     <input type="number" v-model="years_experience">
     <div class="buttons">
       <input type="submit" class="add" value="Add">

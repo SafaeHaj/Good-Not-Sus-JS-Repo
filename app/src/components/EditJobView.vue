@@ -2,14 +2,14 @@
     <h2>Edit Job: {{ title }}</h2>
     <main>
         <form @submit.prevent="handleSubmit">
-            <input type="text" :value="title">
-            <input type="text" :value="description">
-            <input type="number" :value="salary">
-            <input type="date" :value="date_creation">
-            <input type="number" :value="years_experience">
+            <input type="text" v-model="title">
+            <input type="text" v-model="description">
+            <input type="number" v-model="salary">
+            <input type="date" v-model="date_creation">
+            <input type="number" v-model="years_experience">
             <div class="buttons">
                 <input type="submit" class="add" value="Edit">
-                <input type="reset" class="cancel" value="Cancel">
+                <input type="reset" class="cancel" value="Cancel" @click="$router.push(`/`)">
             </div>
         </form>
     </main>
@@ -31,12 +31,12 @@ export default {
         fetch(str)
             .then((res) => res.json())
             .then(data => {
-                console.log(data);
                 this.title = data.title;
                 this.description = data.description;
                 this.salary = data.salary;
                 this.date_creation = data.date_of_creation;
                 this.years_experience = data.years_of_experience;
+                this.id = data.id;
             })
             .catch(err => console.log(err.message))
     },
@@ -51,6 +51,7 @@ export default {
                 id: this.id
             };
 
+            console.log(editJob);
             const str = "http://localhost:3000/jobs/" + this.$route.params.id;
 
             fetch(str , {
@@ -118,11 +119,11 @@ h2 {
  }
  
  .cancel {
-   background-color: #e63946;
+   background-color: #8ecae6;
  }
  .cancel:hover{
    transition-delay: 20ms;
-   background-color: #d62828;
+   background-color: #219ebc;
  }
 
  input {

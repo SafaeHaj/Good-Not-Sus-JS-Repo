@@ -81,6 +81,10 @@
     gap: 20px;
   }
 
+  li p:hover {
+    color: #219ebc;
+  }
+
   li button {
     border: none;
     padding: 10px;
