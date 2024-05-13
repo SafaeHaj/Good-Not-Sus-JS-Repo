@@ -28,6 +28,8 @@ export default {
     },
     mounted() {
         const str = "http://localhost:3000/jobs/" + this.$route.params.id;
+        
+        
         fetch(str)
             .then((res) => res.json())
             .then(data => {

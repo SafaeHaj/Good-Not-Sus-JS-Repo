@@ -17,18 +17,31 @@
   import router from "../router.js"
 </script>
 <script>
+import { projectFirestore } from '../firebase/config'
+
   export default {
     data() {
       return {
         jobs: []
       }
     },
-    mounted() {
-      fetch("http://localhost:3000/jobs")
-      .then((res) => res.json())
-      .then(data => this.jobs = data)
-      .catch(err => console.log(err.message))
-    },
+    async mounted() {
+      const error = {value:1000}
+
+      try {
+        const res = await projectFirestore.collection('jobs').get()
+        // console.log(res.docs)
+
+        this.jobs = res.docs.map(doc => {
+          // data are returned without the id, in order to get the id too we need to add it explicitely
+          // ... is spread syntaxe
+          return { ...doc.data(), id: doc.id }
+        })
+      }
+      catch(err) {
+        error.value = err.message
+      }
+},
     methods: {
       deleteJob (id) {
         fetch("http://localhost:3000/jobs/" + id, {method: 'DELETE'}) 
