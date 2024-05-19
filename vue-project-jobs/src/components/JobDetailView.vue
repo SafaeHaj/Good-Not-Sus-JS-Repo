@@ -1,15 +1,22 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router"
 import { ref, onBeforeMount } from "vue"
-import {getJob} from "../getJob.js"
 
+const job = ref(null);
 const route = useRoute();
 const router = useRouter();
 const { id } = route.params;
-const job = ref(null);
+
+let jobs = [];
 
 onBeforeMount(() => {
-    job.value = getJob(id);
+    fetch("http://localhost:3000/jobs")
+        .then((res) => res.json())
+        .then(data => {
+            jobs = data;
+            const jobDetails = jobs.find(j => j.id === id)
+            job.value = jobDetails;})
+        .catch(err => console.log(err.message));
 });
 
 </script>

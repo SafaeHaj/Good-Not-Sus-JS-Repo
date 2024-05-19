@@ -16,7 +16,6 @@
 </template>
 
 <script>
-  import {addJob} from '../postJob';
   export default {
     data() {
       return {
@@ -36,7 +35,13 @@
           date_of_creation: this.date_creation,
           years_of_experience: this.years_experience
         };
-        addJob(job);
+
+        fetch("http://localhost:3000/jobs", {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(job)
+        })
+        .catch(error => console.log(error));
         this.$router.push('/');
       }
     }
